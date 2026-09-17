@@ -208,6 +208,12 @@ const AFRIN_CATEGORY_IMAGES = [
   { key: "honeyNatural", image: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=900&q=82", path: "/shop?category=home", count: "+180" },
   { key: "kurdishTextiles", image: "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=900&q=82", path: "/shop?category=fashion", count: "+95" },
 ];
+const AFRIN_FEATURED = [
+  { image: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=900&q=82", vendor: "afrinFarmers", name: "oliveOilProduct", price: 18, compareAt: 24, badge: "new", rating: 4.9, reviews: 234 },
+  { image: "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?auto=format&fit=crop&w=900&q=82", vendor: "afrinArtisans", name: "laurelSoapProduct", price: 8, compareAt: null, badge: "hot", rating: 5, reviews: 512 },
+  { image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=900&q=82", vendor: "afrinPottery", name: "potteryProduct", price: 45, compareAt: 65, badge: "sale", rating: 4.8, reviews: 167 },
+  { image: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=900&q=82", vendor: "kurdMountains", name: "mountainHoneyProduct", price: 32, compareAt: null, badge: "new", rating: 4.9, reviews: 89 },
+];
 const AR_CATEGORY = { solar: "الطاقة الشمسية", electronics: "الإلكترونيات والتقنية", tools: "المعدات والأدوات", home: "المنزل والمعيشة", fashion: "الأزياء والملابس" };
 const AR_VENDOR = { "Solaris Power Ltd": "سولاريس للطاقة", "Voltix Electronics": "فولتكس للإلكترونيات", "IronForge Tools": "آيرون فورج للأدوات", "Casa Verde Home": "كازا فيردي للمنزل", "Atelier Nord": "أتيليه نورد" };
 const AR_PRODUCTS = {
@@ -224,6 +230,19 @@ function arProductName(p) { return AR_PRODUCTS[p.name] || p.name; }
 function localizedProductName(p) { return I18n.lang === "ar" ? arProductName(p) : I18n.lang === "ku" ? (KU_TEXT[p.name] || p.name) : p.name; }
 function productImage(p) { return PUBLIC_IMAGES[p.category] || PUBLIC_IMAGES.electronics; }
 
+function AfrinProductCard(p, ref) {
+  const saved = Store.inWishlist(p.id);
+  return h("article", { class: "pcard fade-in", onclick: () => Router.go("/product/" + p.id) },
+    h("div", { class: "pcard-img", style: { backgroundImage: `url('${ref.image}')` } },
+      ref.badge === "new" ? h("span", { class: "badge-new" }, t("new")) : ref.badge === "sale" ? h("span", { class: "badge-sale" }, "-30%") : h("span", { class: "badge-sale" }, t("mostPopular")),
+      h("button", { class: "btn btn-g btn-xs", style: { position: "absolute", right: "10px", top: "10px", zIndex: 3, color: saved ? "var(--bad)" : "var(--mut)" }, onclick: (e) => { e.stopPropagation(); Store.toggleWishlist(p.id); } }, saved ? "♥" : "♡")),
+    h("div", { style: { padding: "15px", display: "flex", flexDirection: "column", gap: "7px", flex: 1 } },
+      h("div", { style: { color: "var(--mut)", fontSize: "11px", textTransform: "uppercase", letterSpacing: ".08em" } }, t(ref.vendor)),
+      h("h3", { style: { fontSize: "15px", lineHeight: "1.35", margin: 0, minHeight: "40px" } }, t(ref.name)),
+      h("div", { style: { display: "flex", alignItems: "center", gap: "6px" } }, h("span", { class: "stars" }, stars(ref.rating)), h("span", { style: { color: "var(--mut)", fontSize: "12px" } }, ref.rating.toFixed(1) + " (" + ref.reviews + ")")),
+      h("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "5px" } }, h("div", { style: { display: "flex", alignItems: "baseline", gap: "8px" } }, h("strong", { style: { fontSize: "19px" } }, money(ref.price)), ref.compareAt ? h("del", { style: { color: "var(--mut)", fontSize: "12px" } }, money(ref.compareAt)) : null), h("button", { class: "btn btn-p btn-xs", style: { width: "36px", height: "36px", borderRadius: "50%", padding: 0 }, onclick: (e) => { e.stopPropagation(); Store.addToCart(p.id); } }, NXI.plus))));
+}
+
 function ArabicHeader() {
   const count = Store.cartCount();
   const go = (path) => () => Router.go(path);
@@ -231,12 +250,12 @@ function ArabicHeader() {
   const theme = h("button", { class: "arabic-icon-btn theme-btn", title: "Theme", onclick: () => { Store.db.settings.theme = Store.db.settings.theme === "light" ? "dark" : "light"; Store.save(); applyTheme(); Store.emit(); } }, Store.db.settings.theme === "light" ? "☀" : "☾");
   const cart = h("button", { class: "arabic-icon-btn", onclick: go("/cart"), title: t("cart") }, NXI.cart, count ? h("span", { class: "count" }, count) : null);
   const account = Session.user ? h("button", { class: "arabic-account", onclick: go("/account") }, NXI.user, Session.user.name.split(" ")[0]) : h("button", { class: "arabic-account", onclick: go("/login") }, NXI.user, t("login"));
-  const nav = [[t("home"), "/"], [t("shop"), "/shop"], [t("categories"), "/categories"], [t("solar"), "/shop?category=solar"], [t("electronics"), "/shop?category=electronics"], [t("homeLiving"), "/shop?category=home"], [t("fashion"), "/shop?category=fashion"], ["🔥 " + t("offers"), "/shop?sort=discount"]];
+  const nav = [[t("home"), "/"], [t("oliveOil"), "/shop?category=home"], [t("laurelSoap"), "/shop?category=home"], [t("pottery"), "/shop?category=home"], [t("honeyNatural"), "/shop?category=home"], [t("kurdishTextiles"), "/shop?category=fashion"], ["🔥 " + t("offers"), "/shop?sort=discount"], [t("newest"), "/shop?sort=new"], [t("mostPopular"), "/shop?sort=popular"], [t("sellers"), "/vendors"]];
   return h("div", { class: "arabic-public-header" }, h("div", { class: "arabic-topbar" }, h("span", {}, h("i", { class: "mini-flag" }), " ", t("topbar"))), h("header", {}, h("div", { class: "arabic-header-inner" }, h("div", { class: "arabic-logo", onclick: go("/") }, h("div", { class: "arabic-logo-mark" }, "☀"), h("div", { class: "arabic-logo-copy" }, h("strong", {}, "EFRÎN ONE"), h("small", {}, t("brandSub")))), search, h("div", { class: "arabic-actions" }, languageSwitcher(), theme, cart, account))), h("nav", { class: "arabic-nav" }, h("div", { class: "arabic-nav-inner" }, nav.map(([label, path]) => h("button", { class: "arabic-nav-link " + (Router.current.path === path ? "active" : "") , onclick: go(path) }, label)))));
 }
 
-function ArabicProductShelf(title, desc, list, link = "/shop") {
-  return h("section", { class: "arabic-section arabic-products" }, h("div", { class: "arabic-container" }, h("div", { class: "arabic-section-head" }, h("div", {}, h("div", { class: "arabic-section-tag" }, t("selectionsTag")), h("h2", { class: "arabic-section-title" }, title), h("p", { class: "arabic-section-desc" }, desc)), h("button", { class: "arabic-link", onclick: () => Router.go(link) }, t("viewAll"))), h("div", { class: "grid-prod" }, list.map(ProductCard))));
+function ArabicProductShelf(title, desc, list, link = "/shop", reference = false) {
+  return h("section", { class: "arabic-section arabic-products" }, h("div", { class: "arabic-container" }, h("div", { class: "arabic-section-head" }, h("div", {}, h("div", { class: "arabic-section-tag" }, t("selectionsTag")), h("h2", { class: "arabic-section-title" }, title), h("p", { class: "arabic-section-desc" }, desc)), h("button", { class: "arabic-link", onclick: () => Router.go(link) }, t("viewAll"))), h("div", { class: "grid-prod" }, list.map((p, i) => reference && AFRIN_FEATURED[i] ? AfrinProductCard(p, AFRIN_FEATURED[i]) : ProductCard(p)))));
 }
 
 function ArabicHomePage() {
@@ -259,7 +278,7 @@ function ArabicHomePage() {
   const newsletter = h("section", { class: "arabic-newsletter" }, h("div", { class: "arabic-container" },
     h("h2", {}, t("newsletterTitle")), h("p", {}, t("newsletterDesc")),
     h("div", { class: "arabic-newsletter-form" }, h("input", { placeholder: t("email") }), h("button", { onclick: () => toast(t("subscribe"), "ok") }, t("subscribe")))));
-  return h("div", { class: "arabic-home" }, hero, categories, ArabicProductShelf(t("weeklyTitle"), t("weeklyDesc"), products.slice().sort((a, b) => b.sold - a.sold).slice(0, 4), "/shop?sort=popular"), story, ArabicProductShelf(t("latestTitle"), t("latestDesc"), products.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 4), "/shop?sort=new"), vendors, newsletter, Footer());
+  return h("div", { class: "arabic-home" }, hero, categories, ArabicProductShelf(t("weeklyTitle"), t("weeklyDesc"), products.slice().sort((a, b) => b.sold - a.sold).slice(0, 4), "/shop?sort=popular", true), story, ArabicProductShelf(t("latestTitle"), t("latestDesc"), products.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 4), "/shop?sort=new"), vendors, newsletter, Footer());
 }
 
 function ArabicFooter() {
