@@ -257,20 +257,26 @@ body.public-theme .modal-bg { background:rgba(15,20,16,.58); }
 }
 @media(max-width:680px){
   .arabic-header-inner { grid-template-columns:auto 1fr; padding:11px 15px; }
-  .arabic-actions .arabic-account { display:none; }
-  .arabic-actions .theme-btn { display:none; }
+  .arabic-actions .arabic-account { display:inline-flex; padding:10px; font-size:0; }
+  .arabic-actions .theme-btn { display:grid; width:38px; height:38px; }
   .arabic-search { grid-column:1 / -1; grid-row:2; }
-  .arabic-nav-inner { padding:0 15px; }
-  .arabic-nav-link { font-size:12px; padding:7px 12px; }
-  .arabic-hero { min-height:610px; }
-  .arabic-hero-inner { min-height:610px; padding:58px 20px; }
-  .arabic-hero-title { font-size:48px; }
+  .arabic-nav-inner { height:auto; min-height:48px; padding:6px 15px; gap:5px; flex-wrap:wrap; overflow:visible; }
+  .arabic-nav-link { font-size:11px; padding:7px 10px; }
+  .arabic-hero { min-height:760px; }
+  .arabic-hero-inner { min-height:760px; padding:48px 20px 32px; gap:22px; }
+  .arabic-hero-title { font-size:46px; }
   .arabic-hero-stats { gap:15px; justify-content:space-between; }
   .arabic-hero-stat strong { font-size:22px; }
+  .arabic-hero-art { display:grid; min-height:145px; }
+  .arabic-hero-art::before { width:145px; height:145px; }
+  .arabic-hero-art::after { width:190px; height:190px; }
+  .arabic-hero-mark { width:108px; height:108px; font-size:63px; }
   .arabic-section { padding:55px 0; }
   .arabic-section-head { align-items:start; flex-direction:column; }
   .arabic-category-grid,.arabic-products .grid-prod { grid-template-columns:repeat(2,1fr); gap:11px; }
   .arabic-category { min-height:140px; padding:16px; }
+  .arabic-category-photo { min-height:190px; padding:0; }
+  .arabic-category-photo .photo-copy { padding:14px; }
   .arabic-category .emoji { font-size:29px; }
   .arabic-story-inner { grid-template-columns:1fr; }
   .arabic-story-media { min-height:280px; }
