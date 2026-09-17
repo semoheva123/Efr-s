@@ -35,6 +35,7 @@ const App = {
   render() {
     const isPortal = /^#\/(vendor\/(dashboard|analytics|products|orders|payouts|coupons|settings|store)|admin\/)/.test(location.hash || "");
     document.body.classList.toggle("public-theme", !isPortal);
+    document.body.classList.toggle("portal-theme", isPortal);
     document.documentElement.dir = LANGS[I18n.lang]?.dir || "rtl";
     document.documentElement.lang = I18n.lang || "ar";
     const page = Router.parse();

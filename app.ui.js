@@ -1,10 +1,10 @@
 /* ============ NEXUS UI — layout, header, footer, charts, components ============ */
 function Logo(onclick, size = 1) {
   return h("div", { onclick, style: { display: "flex", alignItems: "center", gap: "10px", cursor: onclick ? "pointer" : "default" } },
-    h("div", { style: { width: `${36 * size}px`, height: `${36 * size}px`, borderRadius: "11px", background: "linear-gradient(135deg,var(--pri),var(--acc))", display: "grid", placeItems: "center", fontWeight: "800", fontSize: `${19 * size}px`, color: "#fff", fontFamily: "Sora" } }, "◈"),
+    h("div", { style: { width: `${36 * size}px`, height: `${36 * size}px`, borderRadius: "11px", background: "linear-gradient(135deg,#f4c95d,#c9a961)", display: "grid", placeItems: "center", fontWeight: "800", fontSize: `${19 * size}px`, color: "#1f2b1e", fontFamily: "Cairo" } }, "☀"),
     h("div", { style: { lineHeight: "1.05" } },
-      h("div", { style: { fontWeight: "800", fontSize: `${19 * size}px`, fontFamily: "Sora", letterSpacing: "-.03em" } }, "NEXUS"),
-      h("div", { style: { fontSize: `${10 * size}px`, color: "var(--mut)", letterSpacing: ".16em", fontWeight: "600" } }, "MARKETPLACE")));
+      h("div", { style: { fontWeight: "800", fontSize: `${19 * size}px`, fontFamily: "Playfair Display,Cairo,serif", letterSpacing: ".02em", color: "var(--txt)" } }, "EFRÎN ONE"),
+      h("div", { style: { fontSize: `${10 * size}px`, color: "var(--mut)", letterSpacing: ".12em", fontWeight: "600" } }, "AFRIN MARKETPLACE")));
 }
 
 /* ---------- Header ---------- */

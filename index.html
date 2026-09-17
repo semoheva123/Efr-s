@@ -53,6 +53,11 @@ input::placeholder,textarea::placeholder{color:var(--mut)}
 .btn-d{background:rgba(255,77,106,.12);color:var(--bad);border-color:rgba(255,77,106,.3)}
 .btn-d:hover{background:rgba(255,77,106,.2)}
 .btn-ok{background:rgba(0,214,143,.12);color:var(--ok);border-color:rgba(0,214,143,.3)}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible { outline:3px solid rgba(244,201,93,.72); outline-offset:3px; }
+.card,.stat,.pcard { transition:transform .22s ease, border-color .22s ease, box-shadow .22s ease; }
+.fade-in { animation:pageIn .38s ease both; }
+@keyframes pageIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+@media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; scroll-behavior:auto !important; } }
 .btn-sm{padding:7px 12px;font-size:13px;border-radius:8px}
 .btn-xs{padding:5px 9px;font-size:12px;border-radius:7px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh)}
@@ -98,6 +103,14 @@ input::placeholder,textarea::placeholder{color:var(--mut)}
 .switch::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s}
 .switch.on::after{left:23px}
 .sidebar::-webkit-scrollbar{width:5px}
+body.portal-theme { --pri:#c9a961; --pri2:#f4c95d; --acc:#7d9a67; --ok:#8fb078; --warn:#e6ad4b; }
+body.portal-theme .btn-p { background:linear-gradient(135deg,#f4c95d,#c9a961); color:#1f2b1e; box-shadow:0 8px 24px rgba(201,169,97,.22); }
+body.portal-theme .btn-p:hover { filter:brightness(1.08); }
+body.portal-theme .sidebar { border-right-color:rgba(201,169,97,.22); }
+body.portal-theme .sidebar .nav-link.on { background:rgba(201,169,97,.14); color:#f4c95d; }
+body.portal-theme .sidebar .nav-link.on .ico { color:#f4c95d; }
+body.portal-theme .stat::after { background:radial-gradient(circle,rgba(201,169,97,.2),transparent 70%); }
+body.portal-theme .pcard:hover { border-color:rgba(201,169,97,.5); }
 @media(max-width:900px){
   .sidebar{position:fixed;z-index:150;transform:translateX(-100%);transition:.25s}
   .sidebar.open{transform:none;box-shadow:0 0 60px rgba(0,0,0,.7)}
@@ -209,6 +222,10 @@ body.public-theme .modal-bg { background:rgba(15,20,16,.58); }
 .arabic-products .pcard-img > div { position:relative; z-index:1; }
 .arabic-products .pcard-watermark { opacity:.16; filter:grayscale(1); }
 .arabic-products .pcard { border-radius:20px; }
+.media-thumb { background-size:cover; background-position:center; background-color:#f0ebe0; }
+.media-thumb-sm { width:42px; height:42px; flex:0 0 42px; border-radius:10px; }
+.product-detail-media { aspect-ratio:1.1; background-size:cover; background-position:center; position:relative; min-height:420px; }
+.product-detail-thumb { width:78px; height:70px; background-size:cover; background-position:center; }
 
 .arabic-story { background:#1f2b1e; color:#fff; overflow:hidden; }
 .arabic-story-inner { max-width:1560px; margin:0 auto; min-height:560px; display:grid; grid-template-columns:1fr 1.1fr; align-items:stretch; }
@@ -256,6 +273,9 @@ body.public-theme .modal-bg { background:rgba(15,20,16,.58); }
   .arabic-vendor-grid { grid-template-columns:repeat(2,1fr); }
 }
 @media(max-width:680px){
+  body.portal-theme main { padding:18px !important; }
+  body.portal-theme header { padding:0 15px !important; }
+  body.portal-theme .sidebar { width:270px; }
   .arabic-header-inner { grid-template-columns:auto 1fr; padding:11px 15px; }
   .arabic-actions .arabic-account { display:inline-flex; padding:10px; font-size:0; }
   .arabic-actions .theme-btn { display:grid; width:38px; height:38px; }
@@ -281,6 +301,8 @@ body.public-theme .modal-bg { background:rgba(15,20,16,.58); }
   .arabic-story-inner { grid-template-columns:1fr; }
   .arabic-story-media { min-height:280px; }
   .arabic-story-copy { padding:48px 24px; }
+  .product-detail-wrap > div:nth-child(2) { grid-template-columns:1fr !important; gap:28px !important; }
+  .product-detail-media { min-height:330px; }
   .arabic-vendor-grid { grid-template-columns:1fr 1fr; gap:10px; }
   .arabic-vendor-feature { padding:20px 10px; }
   .arabic-newsletter-form { flex-direction:column; padding:0 20px; gap:9px; }
