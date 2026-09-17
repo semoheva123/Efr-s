@@ -7,7 +7,7 @@ function ProductCard(p) {
       p.discount > 0 ? h("span", { class: "badge-sale" }, "-" + p.discount + "%") : null,
       new Date(p.createdAt) > new Date(Date.now() - 35 * 864e5) ? h("span", { class: "badge-new" }, t("new")) : null,
       h("button", { class: "btn btn-g btn-xs", style: { position: "absolute", right: "10px", top: "10px", zIndex: 3, color: saved ? "var(--bad)" : "var(--mut)" }, onclick: (e) => { e.stopPropagation(); Store.toggleWishlist(p.id); } }, saved ? "♥" : "♡"),
-      h("div", { style: { fontSize: "76px", filter: "drop-shadow(0 12px 12px rgba(0,0,0,.18))" } }, p.emoji)),
+      h("div", { class: "pcard-watermark", style: { fontSize: "76px" } }, p.emoji)),
     h("div", { style: { padding: "15px", display: "flex", flexDirection: "column", gap: "7px", flex: 1 } },
       h("div", { style: { color: "var(--mut)", fontSize: "11px", textTransform: "uppercase", letterSpacing: ".08em" } }, localizedVendor(v?.name || "NEXUS Seller")),
       h("h3", { style: { fontSize: "15px", lineHeight: "1.35", margin: 0, minHeight: "40px" } }, localizedProductName(p)),
@@ -201,6 +201,13 @@ const PUBLIC_IMAGES = {
   home: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=900&q=82",
   fashion: "https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=900&q=82",
 };
+const AFRIN_CATEGORY_IMAGES = [
+  { key: "oliveOil", image: "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=900&q=82", path: "/shop?category=home", count: "+240" },
+  { key: "laurelSoap", image: "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?auto=format&fit=crop&w=900&q=82", path: "/shop?category=home", count: "+85" },
+  { key: "pottery", image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=900&q=82", path: "/shop?category=home", count: "+120" },
+  { key: "honeyNatural", image: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?auto=format&fit=crop&w=900&q=82", path: "/shop?category=home", count: "+180" },
+  { key: "kurdishTextiles", image: "https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&w=900&q=82", path: "/shop?category=fashion", count: "+95" },
+];
 const AR_CATEGORY = { solar: "الطاقة الشمسية", electronics: "الإلكترونيات والتقنية", tools: "المعدات والأدوات", home: "المنزل والمعيشة", fashion: "الأزياء والملابس" };
 const AR_VENDOR = { "Solaris Power Ltd": "سولاريس للطاقة", "Voltix Electronics": "فولتكس للإلكترونيات", "IronForge Tools": "آيرون فورج للأدوات", "Casa Verde Home": "كازا فيردي للمنزل", "Atelier Nord": "أتيليه نورد" };
 const AR_PRODUCTS = {
@@ -235,8 +242,8 @@ function ArabicProductShelf(title, desc, list, link = "/shop") {
 function ArabicHomePage() {
   const products = Store.products();
   const hero = h("section", { class: "arabic-hero" }, h("div", { class: "arabic-hero-inner" }, h("div", { class: "arabic-hero-copy" }, h("div", { class: "arabic-eyebrow" }, h("b", {}, "✦"), t("heroEyebrow")), h("h1", { class: "arabic-hero-title" }, h("span", {}, t("heroTitle1")), h("span", { class: "gold" }, t("heroTitle2"))), h("div", { class: "arabic-hero-sub" }, t("heroSub")), h("p", { class: "arabic-hero-desc" }, t("heroDesc")), h("div", { class: "arabic-hero-actions" }, h("button", { class: "arabic-hero-primary", onclick: () => Router.go("/shop") }, t("shopNow")), h("button", { class: "arabic-hero-ghost", onclick: () => Router.go("/vendor/register") }, t("openStore"))), h("div", { class: "arabic-hero-stats" }, h("div", { class: "arabic-hero-stat" }, h("strong", {}, "42K+"), h("small", {}, t("sellers"))), h("div", { class: "arabic-hero-stat" }, h("strong", {}, "1.2M+"), h("small", {}, t("products"))), h("div", { class: "arabic-hero-stat" }, h("strong", {}, "4.9/5"), h("small", {}, t("trust")))),), h("div", { class: "arabic-hero-art" }, h("div", { class: "arabic-hero-mark" }, "☀"))));
-  const categoryCards = CATEGORIES.map((c) => h("button", { class: "arabic-category", style: { "--cat": c.color + "2b" }, onclick: () => Router.go("/shop?category=" + c.id) }, h("div", { class: "emoji" }, c.icon), h("strong", {}, localizedCategory(c.id)), h("small", {}, Store.products({ category: c.id }).length + " " + t("products"))));
-  const categories = h("section", { class: "arabic-section" }, h("div", { class: "arabic-container" }, h("div", { class: "arabic-section-head" }, h("div", {}, h("div", { class: "arabic-section-tag" }, t("discoverTag")), h("h2", { class: "arabic-section-title" }, t("categoryTitle")), h("p", { class: "arabic-section-desc" }, t("categoryDesc"))), h("button", { class: "arabic-link", onclick: () => Router.go("/categories") }, t("allCategories"))), h("div", { class: "arabic-category-grid" }, categoryCards)));
+  const categoryCards = AFRIN_CATEGORY_IMAGES.map((c) => h("button", { class: "arabic-category arabic-category-photo", style: { backgroundImage: `url('${c.image}')` }, onclick: () => Router.go(c.path) }, h("div", { class: "photo-copy" }, h("strong", {}, t(c.key)), h("small", {}, c.count + " " + t("products") + "  ←"))));
+  const categories = h("section", { class: "arabic-section" }, h("div", { class: "arabic-container" }, h("div", { class: "arabic-section-head" }, h("div", {}, h("div", { class: "arabic-section-tag" }, t("discoverTag")), h("h2", { class: "arabic-section-title" }, t("heritageTitle")), h("p", { class: "arabic-section-desc" }, t("heritageDesc"))), h("button", { class: "arabic-link", onclick: () => Router.go("/categories") }, t("allCategories"))), h("div", { class: "arabic-category-grid" }, categoryCards)));
   const storyStats = h("div", { class: "arabic-story-stats" },
     h("div", {}, h("strong", {}, "2024"), h("small", {}, t("founded"))),
     h("div", {}, h("strong", {}, "38"), h("small", {}, t("countries"))),
