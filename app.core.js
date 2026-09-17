@@ -28,7 +28,7 @@ const nxQuery = (s, r = document) => r.querySelector(s);
 const nxQueryAll = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const svg = (d, size = 18) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
-const I = {
+const NXI = {
   grid: svg('<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>'),
   cart: svg('<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/>'),
   user: svg('<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>'),
@@ -99,7 +99,7 @@ function toast(msg, type = "pri", ms = 3200) {
   const colors = { pri: "var(--pri)", ok: "var(--ok)", bad: "var(--bad)", warn: "var(--warn)" };
   const el = h("div", { class: "toast", style: { borderLeftColor: colors[type] } },
     h("div", { style: { display: "flex", gap: "10px", alignItems: "center" } },
-      h("span", { style: { color: colors[type], display: "flex" }, html: type === "ok" ? I.check : type === "bad" ? I.x : I.bell }),
+      h("span", { style: { color: colors[type], display: "flex" }, html: type === "ok" ? NXI.check : type === "bad" ? NXI.x : NXI.bell }),
       h("span", {}, msg)));
   nxQuery("#toasts").append(el);
   setTimeout(() => { el.style.transition = ".3s"; el.style.opacity = "0"; el.style.transform = "translateX(40px)"; setTimeout(() => el.remove(), 300); }, ms);
@@ -113,7 +113,7 @@ function modal(title, bodyNode, opts = {}) {
     h("div", { class: "modal", style: opts.width ? { maxWidth: opts.width } : {} },
       h("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 24px", borderBottom: "1px solid var(--line)" } },
         h("h3", { style: { margin: 0, fontSize: "19px" } }, title),
-        h("button", { class: "btn btn-g btn-xs", onclick: close, html: I.x })),
+        h("button", { class: "btn btn-g btn-xs", onclick: close, html: NXI.x })),
       h("div", { style: { padding: "24px" } }, bodyNode),
       opts.footer ? h("div", { style: { padding: "16px 24px", borderTop: "1px solid var(--line)", display: "flex", gap: "10px", justifyContent: "flex-end" } }, opts.footer) : null));
   root.append(bg);

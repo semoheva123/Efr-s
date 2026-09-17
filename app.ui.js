@@ -27,25 +27,25 @@ function Header() {
     onkeydown: (e) => { if (e.key === "Enter") { Router.go("/shop?q=" + encodeURIComponent(e.target.value)); } },
   });
   const searchWrap = h("div", { style: { position: "relative", flex: "1", maxWidth: "480px" } },
-    h("span", { style: { position: "absolute", left: "13px", top: "50%", transform: "translateY(-50%)", color: "var(--mut)", display: "flex" }, html: I.search }),
+    h("span", { style: { position: "absolute", left: "13px", top: "50%", transform: "translateY(-50%)", color: "var(--mut)", display: "flex" }, html: NXI.search }),
     searchInput);
 
   const userArea = () => {
     if (Session.role === "vendor") {
       return h("div", { style: { display: "flex", gap: "8px", alignItems: "center" } },
         h("button", { class: "btn btn-g btn-sm", onclick: () => Router.go("/vendor/dashboard") }, "Vendor Portal"),
-        h("button", { class: "btn btn-g btn-sm", onclick: () => { Session.logout(); toast("Signed out", "pri"); Router.go("/"); App.render(); } , html: I.logout }));
+        h("button", { class: "btn btn-g btn-sm", onclick: () => { Session.logout(); toast("Signed out", "pri"); Router.go("/"); App.render(); } , html: NXI.logout }));
     }
     if (Session.role === "admin") {
       return h("div", { style: { display: "flex", gap: "8px" } },
         h("button", { class: "btn btn-g btn-sm", onclick: () => Router.go("/admin/dashboard") }, "Admin"),
-        h("button", { class: "btn btn-g btn-sm", onclick: () => { Session.logout(); Router.go("/"); App.render(); }, html: I.logout }));
+        h("button", { class: "btn btn-g btn-sm", onclick: () => { Session.logout(); Router.go("/"); App.render(); }, html: NXI.logout }));
     }
     if (Session.user) {
       return h("div", { style: { display: "flex", gap: "8px", alignItems: "center" } },
         NotifBell(unread),
         h("button", { class: "btn btn-g btn-sm", onclick: () => Router.go("/account") }, Session.user.name.split(" ")[0]),
-        h("button", { class: "btn btn-g btn-sm", onclick: () => { Session.logout(); toast("Signed out", "pri"); Router.go("/"); App.render(); }, html: I.logout }));
+        h("button", { class: "btn btn-g btn-sm", onclick: () => { Session.logout(); toast("Signed out", "pri"); Router.go("/"); App.render(); }, html: NXI.logout }));
     }
     return h("div", { style: { display: "flex", gap: "8px" } },
       h("button", { class: "btn btn-g btn-sm", onclick: () => Router.go("/login") }, "Sign in"),
@@ -60,7 +60,7 @@ function Header() {
       h("div", { class: "hide-m", style: { flex: "1", display: "flex", justifyContent: "center" } }, searchWrap),
       h("div", { style: { marginLeft: "auto", display: "flex", alignItems: "center", gap: "8px" } },
         ThemeToggle(),
-        h("button", { class: "btn btn-g btn-sm", style: { position: "relative" }, onclick: () => Router.go("/cart") }, I.cart, cat > 0 ? h("span", { style: { position: "absolute", top: "-6px", right: "-6px", background: "var(--pri)", color: "#fff", borderRadius: "99px", fontSize: "10px", padding: "2px 6px", fontWeight: "700" } }, cat) : null),
+        h("button", { class: "btn btn-g btn-sm", style: { position: "relative" }, onclick: () => Router.go("/cart") }, NXI.cart, cat > 0 ? h("span", { style: { position: "absolute", top: "-6px", right: "-6px", background: "var(--pri)", color: "#fff", borderRadius: "99px", fontSize: "10px", padding: "2px 6px", fontWeight: "700" } }, cat) : null),
         userArea())));
 }
 
@@ -77,7 +77,7 @@ function NotifBell(unread) {
             h("div", { style: { color: "var(--mut)", fontSize: "11px", marginTop: "5px" } }, dt(n.at, "ago")))))) :
         h("p", { style: { color: "var(--mut)" } }, "No notifications"),
       { footer: [h("button", { class: "btn btn-g", onclick: () => { Store.db.notifications.forEach((n) => (n.read = true)); Store.save(); Store.emit(); m.close(); } }, "Mark all read")] });
-  } }, I.bell, unread > 0 ? h("span", { style: { position: "absolute", top: "-6px", right: "-6px", background: "var(--bad)", color: "#fff", borderRadius: "99px", fontSize: "10px", padding: "2px 6px", fontWeight: "700" } }, unread) : null);
+  } }, NXI.bell, unread > 0 ? h("span", { style: { position: "absolute", top: "-6px", right: "-6px", background: "var(--bad)", color: "#fff", borderRadius: "99px", fontSize: "10px", padding: "2px 6px", fontWeight: "700" } }, unread) : null);
 }
 
 function ThemeToggle() {
@@ -203,7 +203,7 @@ function Pager(page, pages, onPage) {
 function Toolbar({ q, setQ, children, right }) {
   return h("div", { style: { display: "flex", gap: "10px", flexWrap: "wrap", alignItems: "center", marginBottom: "18px" } },
     h("div", { style: { position: "relative", flex: "1", minWidth: "200px", maxWidth: "340px" } },
-      h("span", { style: { position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", color: "var(--mut)", display: "flex" }, html: I.search }),
+      h("span", { style: { position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", color: "var(--mut)", display: "flex" }, html: NXI.search }),
       h("input", { placeholder: "Search…", value: q || "", oninput: (e) => setQ(e.target.value), style: { paddingLeft: "38px" } })),
     ...(children || []),
     right ? h("div", { style: { marginLeft: "auto", display: "flex", gap: "8px" } }, right) : null);
