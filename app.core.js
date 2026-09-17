@@ -24,8 +24,8 @@ function h(tag, attrs = {}, ...kids) {
   }
   return el;
 }
-const $ = (s, r = document) => r.querySelector(s);
-const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const nxQuery = (s, r = document) => r.querySelector(s);
+const nxQueryAll = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const svg = (d, size = 18) => `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
 const I = {
@@ -101,13 +101,13 @@ function toast(msg, type = "pri", ms = 3200) {
     h("div", { style: { display: "flex", gap: "10px", alignItems: "center" } },
       h("span", { style: { color: colors[type], display: "flex" }, html: type === "ok" ? I.check : type === "bad" ? I.x : I.bell }),
       h("span", {}, msg)));
-  $("#toasts").append(el);
+  nxQuery("#toasts").append(el);
   setTimeout(() => { el.style.transition = ".3s"; el.style.opacity = "0"; el.style.transform = "translateX(40px)"; setTimeout(() => el.remove(), 300); }, ms);
 }
 
 /* ---------- modal ---------- */
 function modal(title, bodyNode, opts = {}) {
-  const root = $("#modal-root");
+  const root = nxQuery("#modal-root");
   const close = () => { bg.style.animation = "fi .2s reverse"; setTimeout(() => bg.remove(), 180); };
   const bg = h("div", { class: "modal-bg", onclick: (e) => { if (e.target === bg && opts.dismissable !== false) close(); } },
     h("div", { class: "modal", style: opts.width ? { maxWidth: opts.width } : {} },

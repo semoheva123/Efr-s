@@ -22,7 +22,7 @@ function PortalSidebar(kind, active, onNav) {
 function PortalTopbar(kind, active, title, subtitle) {
   const unread = Store.db.notifications.filter((n) => !n.read).length;
   return h("header", { style: { height: "70px", borderBottom: "1px solid var(--line)", display: "flex", alignItems: "center", gap: "16px", padding: "0 25px", background: "var(--bg2)", position: "sticky", top: 0, zIndex: 50 } },
-    h("button", { class: "btn btn-g btn-sm mobile-menu", onclick: () => $("#portal-sidebar")?.classList.toggle("open") }, I.menu),
+    h("button", { class: "btn btn-g btn-sm mobile-menu", onclick: () => nxQuery("#portal-sidebar")?.classList.toggle("open") }, I.menu),
     h("div", { style: { flex: 1 } }, h("h1", { style: { margin: 0, fontSize: "19px" } }, title), h("div", { style: { color: "var(--mut)", fontSize: "12px", marginTop: "3px" } }, subtitle)),
     h("div", { style: { display: "flex", alignItems: "center", gap: "9px" } }, languageSwitcher(), NotifBell(unread), h("button", { class: "btn btn-g btn-sm", onclick: () => Router.go(kind === "vendor" ? "/vendor/" + Session.vendor.id : "/") }, kind === "vendor" ? t("viewStore") : t("viewMarketplace"), I.arrow)));
 }

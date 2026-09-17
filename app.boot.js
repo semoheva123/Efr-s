@@ -90,4 +90,4 @@ document.addEventListener("click", (e) => {
   App.render();
 }, true);
 window.addEventListener("hashchange", () => App.render());
-window.addEventListener("DOMContentLoaded", () => { App.root = $("#app"); App.render(); });
+window.addEventListener("DOMContentLoaded", () => { App.root = nxQuery("#app"); App.render(); });
